@@ -100,7 +100,7 @@
                     <h3 class="mbr-section-title mbr-bold pb-3 text-white">Legal Counsel Mediator</h3> -->
 
                     <p class="mbr-text pb-3 mbr-fonts-style display-5 text-black"
-                        style="padding-left:6vw;font-weight:600;font-size:10vw;font-family:'socicon';text-align:center;line-height:normal;">
+                        style="padding-left:6vw;font-weight:600;font-size:10vw;font-family:none;text-align:center;line-height:normal;">
                         Experienced, <br /> Reliable <br /> Legal Services</p>
                     <!-- <div class="mbr-section-btn"><a class="btn btn-md btn-black-outline display-4"
                             href="https://mobirise.com/mobirise-free-templates.zip">DOWNLOAD FREE TEMPLATE</a>
@@ -793,40 +793,32 @@
                             <div data-form-alert="" hidden="" class="align-center">
                                 Thanks for filling out the form!
                             </div>
-                            <form class="mbr-form" action="https://mobirise.com/" method="post"
-                                data-form-title="Mobirise Form" style="display:inline-block;">
-                                <input type="hidden" data-form-email="true"
-                                    value="xoq8iCOk286Lw9u+vzU4tTECgFZMmlGXOEXDkW/IJlr8XlGaIpP65Xd58jQltEclUcZK4NYnYGye/JUMcqI+Fi+JyRlC4z544Y6Kg1UfPcSVYXqwP9JeGLt83u0O0EPm">
+                            <form class="contact_form" action="#" style="display:inline-block;">
+                                <!-- <input type="hidden" data-form-email="true"
+                                    value="xoq8iCOk286Lw9u+vzU4tTECgFZMmlGXOEXDkW/IJlr8XlGaIpP65Xd58jQltEclUcZK4NYnYGye/JUMcqI+Fi+JyRlC4z544Y6Kg1UfPcSVYXqwP9JeGLt83u0O0EPm"> -->
                                 <div data-for="firstName">
                                     <div class="form-group">
-                                        <input type="text" class="form-control px-3" name="firstName"
-                                            data-form-field="FirstName" placeholder="First Name" required=""
-                                            id="firstName-header15-2">
+                                        <input type="text" class="form-control px-3 firstName" placeholder="First Name">
                                     </div>
                                 </div>
                                 <div data-for="lastName">
                                     <div class="form-group">
-                                        <input type="text" class="form-control px-3" name="LastName"
-                                            data-form-field="lastName" placeholder="Last Name" required=""
-                                            id="lastName-header15-2">
+                                        <input type="text" class="form-control px-3 lastName" placeholder="Last Name">
                                     </div>
                                 </div>
                                 <div data-for="email">
                                     <div class="form-group">
-                                        <input type="email" class="form-control px-3" name="email"
-                                            data-form-field="Email" placeholder="Email" required=""
-                                            id="email-header15-2">
+                                        <input type="text" class="form-control px-3 email" placeholder="Email Address">
                                     </div>
                                 </div>
                                 <div data-for="message">
                                     <div class="form-group">
-                                        <input type="text" class="form-control px-3" name="message"
-                                            data-form-field="Message" placeholder="Message" id="message-header15-2">
+                                        <input type="text" class="form-control px-3 message" placeholder="Message">
                                     </div>
                                 </div>
 
-                                <span><button href="" type="submit"
-                                        class="btn btn-form btn-white display-4">SUBMIT</button></span>
+                                <span><button type="submit" class="btn btn-form btn-white display-4"
+                                        onclick="SendEmail()">SUBMIT</button></span>
                             </form>
 
                             <p class="mbr-text text-white">
@@ -1050,7 +1042,81 @@
     <script src="assets/parallax/jarallax.min.js"></script>
     <script src="assets/theme/js/script.js"></script>
     <script src="assets/formoid/formoid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
+    <script>
+        function ValidateEmail(email) {
+            var re = /\S+@\S+\.\S+/;
+            return re.test(email);
+        }
+
+        function SendEmail() {
+            const form = document.querySelector('.contact_form'),
+                firstName = document.querySelector('.firstName').value,
+                lastName = document.querySelector('.lastName').value,
+                email = document.querySelector('.email').value,
+                msg = document.querySelector('.message').value;
+
+            let A = firstName.trim().length === 0,
+                B = lastName.trim().length === 0,
+                C = email.trim().length === 0,
+                D = msg.trim().length === 0,
+                E = !ValidateEmail(email.trim());
+
+            if (A || B || C || D || E) {
+                var alertMessage = "";
+
+                if (A) {
+                    alertMessage = "Please enter your first name";
+                }
+                else if (B) {
+                    alertMessage = "Please enter your last name";
+                }
+                else if (C) {
+                    alertMessage = "Please enter your email address";
+                }
+                else if (D) {
+                    alertMessage = "Please enter your message";
+                }
+                else {
+                    alertMessage = "Please enter a valid email address";
+                }
+
+                alert(alertMessage);
+                return;
+            }
+
+            (function () {
+                emailjs.init("2Ns97HbCzlm9wQOz_");
+            })();
+
+            var params = {
+                sendername: "ozgunruyaoral.com",
+                to: "ozansulukpinar@hotmail.com",
+                subject: "You've Got Mail",
+                replyto: email,
+                receiver: "Özgün Rüya Oral",
+                firstname: firstName,
+                lastname: lastName,
+                email: email,
+                message: msg,
+                website: "www.ozgunruyaoral.com"
+            };
+
+            var serviceID = "service_cdy0178";
+            var templateID = "template_jnvy7cs";
+
+            emailjs.send(serviceID, templateID, params)
+                .then(res => {
+                    document.querySelectorAll('input').forEach(function (element) {
+                        element.value = "";
+                    });
+
+                    setTimeout(function () { alert("Your Message Has Been Sent!"); }, 250);
+                })
+                .catch();
+        }
+    </script>
 
 </body>
 
