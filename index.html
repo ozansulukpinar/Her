@@ -831,12 +831,32 @@
         function ShowEnglish() {
             $('.turkish').hide();
             $('.english').show();
+
+            $('.firstName').attr('placeholder', 'First Name');
+            $('.lastName').attr('placeholder', 'Last Name');
+            $('.email').attr('placeholder', 'Email Address');
+            $('.message').attr('placeholder', 'Message');
         }
 
         function ShowTurkish() {
             $('.english').hide();
             $('.turkish').show();
+
+            $('.firstName').attr('placeholder', 'Ad');
+            $('.lastName').attr('placeholder', 'Soyad');
+            $('.email').attr('placeholder', 'E-posta Adresi');
+            $('.message').attr('placeholder', 'Mesaj');
         }
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2BGGSRLTVF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-2BGGSRLTVF');
     </script>
 
 </body>
